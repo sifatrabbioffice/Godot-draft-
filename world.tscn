@@ -59,12 +59,10 @@ func _ready():
 
 	for cx in range(-half_world + block_size/2, half_world - block_size/2 + 1, block_size):
 		for cz in range(-half_world + block_size/2, half_world - block_size/2 + 1, block_size):
-			# Subdivide block
 			for i in range(plots_per_side):
 				for j in range(plots_per_side):
 					var px = cx - block_size/2 + plot_size/2 + i * plot_size
 					var pz = cz - block_size/2 + plot_size/2 + j * plot_size
-					# Skip if too close to roads (sidewalk)
 					var dist_x = abs(px - cx)
 					var dist_z = abs(pz - cz)
 					if dist_x < SIDEWALK + ROAD_WIDTH/2 or dist_z < SIDEWALK + ROAD_WIDTH/2:
@@ -81,7 +79,6 @@ func _ready():
 	var leaves_mat = _make_material(Color(0.15, 0.45, 0.1))
 	for x in range(-half_world, half_world, 15):
 		for z in range(-half_world, half_world, 15):
-			# Only place on grass (not inside roads)
 			var on_road = false
 			for rx in range(-half_world, half_world + 1, ROAD_MAJOR_INTERVAL):
 				if abs(x - rx) < ROAD_WIDTH/2 or abs(z - rx) < ROAD_WIDTH/2:
@@ -159,15 +156,15 @@ func _add_tree(position: Vector3, trunk_material: Material, leaves_material: Mat
 	trunk_body.transform.origin.y = 1.0
 	tree.add_child(trunk_body)
 
-	# Leaves (cone)
+	# Leaves (squashed sphere – looks like a canopy)
 	var leaves_mesh = MeshInstance3D.new()
-	var cone = ConeMesh.new()
-	cone.top_radius = 0.0
-	cone.bottom_radius = 1.5
-	cone.height = 3.0
-	leaves_mesh.mesh = cone
+	var sphere = SphereMesh.new()
+	sphere.radius = 1.8
+	sphere.height = 3.6   # not used for spheres? radius uniform, but we'll scale
+	leaves_mesh.mesh = sphere
 	leaves_mesh.material_override = leaves_material
 	leaves_mesh.transform.origin.y = 2.8
+	leaves_mesh.scale = Vector3(1.2, 0.7, 1.2)   # flatten it
 	tree.add_child(leaves_mesh)
 
 	add_child(tree)
