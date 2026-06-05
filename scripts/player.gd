@@ -20,36 +20,31 @@ func _input(event):
 		arm.rotation.x -= event.relative.y * mouse_sensitivity
 		arm.rotation.x = clamp(arm.rotation.x, -1.4, 0.2)
 
-	# Controller right-stick look (fine control)
+	# Controller right stick
 	if event is InputEventJoypadMotion:
-		var axis_val = event.axis_value
-		if abs(axis_val) < 0.1:   # deadzone
+		var val = event.axis_value
+		if abs(val) < 0.1:
 			return
 		if event.axis == JOY_AXIS_RIGHT_X:
-			arm.rotation.y -= axis_val * controller_sensitivity * get_process_delta_time()
+			arm.rotation.y -= val * controller_sensitivity * get_process_delta_time()
 		if event.axis == JOY_AXIS_RIGHT_Y:
-			arm.rotation.x -= axis_val * controller_sensitivity * get_process_delta_time()
+			arm.rotation.x -= val * controller_sensitivity * get_process_delta_time()
 			arm.rotation.x = clamp(arm.rotation.x, -1.4, 0.2)
 
 func _physics_process(delta):
-	# Gravity
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-	# Jump
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
 
-	# Movement input – works for both keyboard and controller left stick
-	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var direction := Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, $SpringArm3D.rotation.y).normalized()
+	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var direction = Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, $SpringArm3D.rotation.y).normalized()
 
-	# Sprint
-	var speed := move_speed
+	var speed = move_speed
 	if Input.is_action_pressed("sprint"):
 		speed *= sprint_multiplier
 
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
-
 	move_and_slide()
