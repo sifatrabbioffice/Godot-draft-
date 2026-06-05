@@ -10,14 +10,14 @@ config_version=5
 
 [application]
 
-config/name="Massive World"
+config/name="Massive City"
 run/main_scene="res://world.tscn"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [dotnet]
 
-project/assembly_name="Massive World"
+project/assembly_name="Massive City"
 
 [input]
 
