@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://d0wphjbjkfjko"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 20, 0)
+shadow_enabled = true
+
+[node name="Building_Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+mesh = SubResource("BoxMesh_building")
+
+[sub_resource type="BoxMesh" id="BoxMesh_building"]
+size = Vector3(15, 50, 15)
+material = SubResource("ORMMaterial3D_concrete")
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_concrete"]
+albedo_color = Color(0.35, 0.35, 0.35, 1)
+roughness = 0.8
+uv1_scale = Vector3(5, 15, 5)
+uv1_triplanar = true
+
+[node name="Glass_Facade_Front" type="MeshInstance3D" parent="Building_Base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.55)
+mesh = SubResource("QuadMesh_glass")
+
+[node name="Glass_Facade_Back" type="MeshInstance3D" parent="Building_Base"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -7.55)
+mesh = SubResource("QuadMesh_glass")
+
+[node name="Glass_Facade_Left" type="MeshInstance3D" parent="Building_Base"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -7.55, 0, 0)
+mesh = SubResource("QuadMesh_glass")
+
+[node name="Glass_Facade_Right" type="MeshInstance3D" parent="Building_Base"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.55, 0, 0)
+mesh = SubResource("QuadMesh_glass")
+
+[sub_resource type="QuadMesh" id="QuadMesh_glass"]
+size = Vector2(15, 50)
+material = SubResource("ORMMaterial3D_glass")
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_glass"]
+albedo_color = Color(0.1, 0.25, 0.4, 1)
+metallic = 0.9
+roughness = 0.1
+uv1_scale = Vector3(10, 30, 1)
